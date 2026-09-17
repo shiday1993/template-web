@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang='id'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, 
+        initial-scale=1'>
+
+    <link rel='stylesheet' 
+        href='assets/css/bootstrap/bootstrap-icons.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/adminLTE/adminlte.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/dataTables/dataTables.dataTables.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/dataTables/select.dataTables.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/dataTables/buttons.dataTables.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/bootstrap/bootstrap-datepicker.standalone.min.css'>
+    <link rel='stylesheet' 
+        href='assets/css/style.css' />
+
+    <script src='assets/js/jquery-3.7.1.min.js'></script>
+    <title>Login</title>
+</head>
+
+<body class="register-page bg-body-secondary app-loaded">
+    <main class="register-box" id="main" tabindex="-1">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <a href="/" class="link-dark text-center 
+                    link-offset-5 link-opacity-100 
+                    link-opacity-50-hover">
+                    <h1 class="mb-0">Application</h1>
+                </a>
+            </div>
+            <div class="card-body register-card-body">
+                <form action="login.web" method="post">
+                    <div class="input-group mb-1">
+                        <div class="form-floating">
+                            <input id="u" name="u" type="text" 
+                                class="form-control" placeholder="" 
+                                required>
+                            <label for="u">Username</label>
+                        </div>
+                        <div class="input-group-text">
+                            <span class="bi bi-person"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <div class="form-floating">
+                            <input id="p" name='p' type="password" 
+                                class="form-control" placeholder="" 
+                                required>
+                            <label for="p">Password</label>
+                        </div>
+                        <div class="input-group-text">
+                            <span class="bi bi-lock-fill"></span>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger d-none text-center" 
+                        id="error-alert" role="alert">
+                        $v["error"]$
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-8 d-inline-flex 
+                                align-items-center">
+                            </div>
+                            <div class="col-4">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" 
+                                        class="btn btn-primary">
+                                        Sign In
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <p class="mb-0">
+                    <a href="#/forgotpassword" 
+                        class="link-primary text-center">
+                        Forgot Password?
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <script src='assets/js/bootstrap/bootstrap.bundle.min.js'></script>
+    <script src='assets/js/adminLTE/adminlte.min.js'></script>
+    <script>
+        var q = $.noConflict();
+        q(document).ready(function() {
+            let errorText = q.trim(q("#error-alert").html());
+            if (errorText !== "" ) {
+                q("#error-alert").removeClass("d-none");
+            }
+        });
+    </script>
+</body>
+</html>
