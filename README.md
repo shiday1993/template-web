@@ -8,6 +8,7 @@ Terdapat **2 versi penyajian** dalam repository ini untuk memudahkan pengujian d
 
 ## 📁 Struktur Folder
 
+```text
 template-web/
 ├── 01-pure-static/             # [UTAMA] Versi Pure Static (Zero-CDN & CORS-Free)
 │   ├── assets/
@@ -30,6 +31,10 @@ template-web/
 │   └── index.singkong          # Entry point utama Singkong
 │
 └── README.md
+
+```
+
+---
 
 ## 🚀 Fitur & Kepatuhan Spesifikasi UI
 
@@ -101,3 +106,6 @@ Untuk menjaga hirarki *layering* (z-index) antara header, dropdown user, dan mob
 
 ```
 
+```
+
+```
