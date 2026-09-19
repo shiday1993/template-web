@@ -1,12 +1,47 @@
-$v["user"]$
-<hr>
-Date: <input type='text' id='d' readonly>
+<div class="card card-outline card-info mb-4 shadow-sm">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+                <i class="bi bi-person-circle text-info" 
+                    style="font-size: 2.5rem;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h5 class="mb-0 fw-semibold">
+                    Hello, $v["user"]$!
+                </h5>
+                <p class="text-secondary mb-0">
+                    Welcome back to system.
+                </p>
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="col-12 col-md-3 col-lg-2 mb-2">
+            <label for="d" class="form-label fw-semibold">
+                Pick a date
+            </label>
+            <div class="input-group">
+                <span class="input-group-text text-bg-light">
+                    <i class="bi bi-calendar-date"></i>
+                </span>
+                <input type="text" id="d" 
+                    class="form-control" 
+                    placeholder="yyyy-mm-dd" 
+                    readonly 
+                    style="background-color: transparent;">
+            </div>
+        </div>
+    </div>
+</div>
 <script type='text/javascript'>
     var q = $.noConflict();
     q(document).ready(function() {
         q('#d').datepicker({
             format: 'yyyy-mm-dd',
-            autoclose: true
+            autoclose: true,
+            todayHiglight: true, 
+            orientation:"bottom auto"
         });
     });
 </script>

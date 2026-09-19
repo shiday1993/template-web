@@ -36,8 +36,8 @@ var resource = [
         ], true
     ],
     ["example", "#", res_example, true, 
-        "bi-file me-2", "", [
-            ["#", res_example_test, ""] 
+        "bi-file-bar-graph me-2", "", [
+            ["test.web", res_example_test, ""] 
             
         ], false
     ],
@@ -80,104 +80,176 @@ var menu = fn(p, c, sess) {
             }
         }
     })
+
     ret + "
-            <div class='offcanvas-body sidebar-wrapper mw-auto  p-0'>
-                    <nav class='mt-2'>
-                        <ul class='nav sidebar-menu flex-column' 
-                            id='sidebarAccordion'>
+        <div class='offcanvas-body sidebar-wrapper mw-auto p-0'>
+            <nav class='mt-2'>
+                <ul class='nav sidebar-menu flex-column' 
+                id='sidebarAccordion'>
     "
     each(resource_user, fn(e, i) {
-        var x = ""
+        var is_active = ""
         if (e[1] == p | e[0] == c) {
-            var x = " active"
+            var is_active = " active"
         }
 
         var f = e[2]
-        var t = "<p class='
-                        d-flex 
-                        justify-content-between 
-                        align-items-center 
-                        w-100'>" + f[0] 
         var b = ""
-        if ((!empty(string(f[1]))) & 
-            (!empty(string(f[2])))) {
-            var b = ("<span class='
-                                ms-auto 
-                                me-3 
-                                nav-badge 
-                                badge " + f[1] + "'>" +
-                f[2] + "</span>")
+        if ((!empty(string(f[1]))) & (!empty(string(f[2])))) {
+            var b = ("<span class='badge " + f[1] + " ms-auto'>
+                " + f[2] + "
+            </span>")
         }
-        var t = t + b 
-        var o = ""
-        var s = ""
         if (!empty(e[6])) {
-            var t = t + "<i class='
-                                nav-arrow 
-                                bi 
-                                bi-chevron-right'></i>"
-            var o = ""
+            var target_id = "submenu_" + string(i)
+            var show_class = ""
+            var collapsed_class = " collapsed"
+            var aria_exp = "false"
+            
             if (e[7] == true) {
-                var o = " menu-open"
+                var show_class = " show"
+                var collapsed_class = ""
+                var aria_exp = "true"
             }
-            var s = " bg-body-secondary"
-        }
-
-        var t = t + "</p>"
-
-        
-        ret + ("<li class='nav-item" + o + "'>")
-        var m = (" 
-            <a class='nav-link" + x + s + "' 
-                href='" + e[1] + "'>
-                " + "
-                <i class='nav-icon bi " + e[4] + "'></i>
-                " + t  + "
-            </a>")
-        ret + m
-
-        if (!empty(e[6])) {
-            ret + "<ul class='nav nav-treeview'>"
+            ret + ("<li class='nav-item'>")
+            ret + ("
+                <a href='#" + target_id + "' 
+                    class='nav-link d-flex 
+                    justify-content-between align-items-center
+                    " + collapsed_class + "' 
+                    data-bs-toggle='collapse' role='button' 
+                    aria-expanded='" + aria_exp + "'>
+                    <div class='d-flex align-items-center'>
+                        <i class='bi " + e[4] + " me-2'></i>
+                        <span>" + f[0] + "</span>
+                    </div>
+                    <div class='d-flex align-items-center gap-2'>
+                        " + b + "
+                        <i class='bi bi-chevron-down arrow-icon'></i>
+                    </div>
+                </a>
+            ")
+            ret + ("
+                <div class='collapse" + show_class + "' 
+                    id='" + target_id + "' 
+                    data-bs-parent='#sidebarAccordion'>
+                    <ul class='nav flex-column ms-3'>
+            ")
             each(e[6], fn(ee, ii) {
                 var ff = ee[1](p, c, sess, f)
-                var tt = "<p class='ms-2 
-                                d-flex 
-                                justify-content-between 
-                                align-items-center w-100'>" + 
-                                ff[0] 
-                var bb = ""
-                if ((!empty(string(ff[1]))) & 
-                    (!empty(string(ff[2])))) {
-                    var bb = ("<span class='
-                                        ms-auto 
-                                        me-3 
-                                        nav-badge 
-                                        badge " + 
-                                        ff[1] + "'>" +
-                        ff[2] + "</span>")
+                var child_active = ""
+                if (ee[0] == p) {
+                    var child_active = " active"
                 }
-                var tt = tt + bb 
-                var tt = tt + "</p>"
-                ret + "<li class='nav-item'>"
-                var mm = (" 
-                    <a class='nav-link" + x + 
-                    "' href='" + ee[0] + "'>" + 
-                        "<i class='nav-icon bi " + 
-                        ee[2] + "'></i>" + tt  
-                    + "</a>")
-                ret + mm
-                ret + "</li>"
-                
+                var bb = ""
+                if (
+                    (!empty(string(ff[1]))) & 
+                    (!empty(string(ff[2])))) {
+                    var bb = ("<span class='badge 
+                        " + ff[1] + " ms-auto'>" + ff[2] + "
+                    </span>")
+                }
+                ret + ("
+                    <li class='nav-item'>
+                        <a href='" + ee[0] + "' 
+                            class='nav-link
+                                d-flex justify-content-between 
+                                align-items-center
+                                "+ child_active + "'>
+                            <div class='d-flex align-items-center'>
+                                <i class='bi " + ee[2] + " me-2'></i>
+                                <span>" + ff[0] + "</span>
+                            </div>
+                            " + bb + "
+                        </a>
+                    </li>
+                ")
             })
-            ret + "</ul>"
+            ret + ("
+                    </ul>
+                </div>
+            ")
+            ret + ("</li>")
+
+        } else {
+            ret + ("<li class='nav-item'>")
+            ret + ("
+                <a href='" + e[1] + "' 
+                    class='nav-link" + is_active + "'>
+                    <i class='bi " + e[4] + " me-2'></i>
+                    <p>" + f[0] + "</p>" + b + "
+                </a>
+            ")
+            ret + ("</li>")
         }
-        ret + "</li>"
     })
     ret + "
-                    </ul>
-                </nav>
-            </div>
+                </ul>
+            </nav>
+        </div>
     "
+    return join(newline(), ret)
+}
+
+var navbar_menu = fn(p, c, sess) {
+    var ret = []
+    var resource_user = []
+    each(resource, fn(e, i) {
+        if (is(e[2], "FUNCTION")) {
+            set(e, 2, e[2](p, c, sess))
+        }
+        if (e[3] == null) {
+            resource_user + e
+        } else {
+            if (empty(sess)) {
+                if (e[3] == false) { resource_user + e }
+            } else {
+                if (e[3] == true) { resource_user + e }
+            }
+        }
+    })
+
+    ret + "<ul class='navbar-nav d-none d-md-flex me-auto'>"
+
+    each(resource_user, fn(e, i) {
+        var is_active = ""
+        if (e[1] == p | e[0] == c) {
+            var is_active = " active"
+        }
+        var f = e[2]
+        var b = ""
+        if ((!empty(string(f[1]))) & (!empty(string(f[2])))) {
+            var b = ("<span class='badge " + f[1] + " ms-2'>" + f[2] + "</span>")
+        }
+        if (!empty(e[6])) {
+            ret + "<li class='nav-item dropdown'>"
+            ret + "  <a class='nav-link dropdown-toggle" + is_active + "' href='#' data-bs-toggle='dropdown'>" + f[0] + "</a>"
+            ret + "  <ul class='dropdown-menu'>"
+
+            each(e[6], fn(ee, ii) {
+                var ff = ee[1](p, c, sess, f)
+                var bb = ""
+                if ((!empty(string(ff[1]))) & (!empty(string(ff[2])))) {
+                    var bb = ("<span class='badge " + ff[1] + " ms-2'>" + ff[2] + "</span>")
+                }
+
+                ret + "    <li>"
+                ret + "      <a href='" + ee[0] + "' class='dropdown-item d-flex justify-content-between align-items-center'>"
+                ret + "        <span>" + ff[0] + "</span>" + bb
+                ret + "      </a>"
+                ret + "    </li>"
+            })
+
+            ret + "  </ul>"
+            ret + "</li>"
+        } else {
+            ret + "<li class='nav-item'>"
+            ret + "  <a href='" + e[1] + "' class='nav-link" + is_active + "'>" + f[0] + b + "</a>"
+            ret + "</li>"
+        }
+    })
+
+    ret + "</ul>"
     return join(newline(), ret)
 }
 
@@ -201,20 +273,23 @@ var menu_account = fn(sess, tb) {
     if (empty(sess)) {
         return ""
     }
+    var uname = sess["user"]
     var ret = []
     ret + ("
-            <ul class='navbar-nav ms-auto'>" +
+            <ul class='navbar-nav ms-3'>" +
                 toolbar(sess, tb) + "
                 <li class='nav-item dropdown'>
-                    <a class='nav-link' 
-                        data-bs-toggle='dropdown' 
-                        href='#' role='button'>
-                        <i class='bi bi-person'>
-                        </i>
+                    <a class='nav-link 
+                        dropdown-toggle
+                        d-flex align-items-center'
+                        data-bs-toggle='dropdown'>
+                        <i class='nav-icon bi bi-person-circle 
+                            fs-5 fw-bold me-2'></i>
+                        <span class='d-lg-inline fw-medium fs-6'>
+                            " + uname + "
+                        </span>
                     </a>
-                    <ul class='dropdown-menu 
-                                dropdown-menu-end'>
-                        
+                    <ul class='dropdown-menu dropdown-menu-end'>                  
     ")
     each(resource_account, fn(e, i) {
         ret + "<li>"
@@ -303,7 +378,8 @@ var header = fn(t, p, c, sess, bc, tb) {
 </head>
 <body class='"+ body_class(sess)  +"'>
     <nav class='app-header navbar navbar-expand bg-body'>
-        <div class='container-fluid'>
+        <div class='container-fluid d-flex align-items-center
+            justify-item-between'>
             <a class='nav-link d-md-none me-2' 
                 data-bs-toggle='offcanvas' href='#mobileSidebar' 
                 role='button'
@@ -315,11 +391,11 @@ var header = fn(t, p, c, sess, bc, tb) {
                 <img src='assets/img/logo.png' alt='Logo' 
                     class='brand-image opacity-75 shadow me-2 ms-2'
                     style='max-height: 32px' />
-                <span class='brand-text fw-light'>Logo</span>
             </a>
 
-" + menu_account(sess, tb) + "
+" + navbar_menu(p, c, sess) + "
 
+" + menu_account(sess, tb) + "
         </div>
     </nav>
 
@@ -346,7 +422,6 @@ var header = fn(t, p, c, sess, bc, tb) {
     <main class='app-main'>
         <div class='app-content-header'>
             <div class='container-fluid'>
-                <!--<h3 class='mb-0'></h3>-->
                 " + breadcrumb(p, c, sess, bc) + "
             </div>
         </div>
@@ -370,6 +445,10 @@ var footer = fn(p) {
     <script src='assets/js/buttons.html5.min.js'></script>
     <script src='assets/js/buttons.print.min.js'></script>
     <script src='assets/js/bootstrap/bootstrap-datepicker.min.js'></script>
+    <script>
+        var q = $.noConflict();
+    </script>
+    <script src='assets/js/script.js'></script>
 </body>
 </html>
 "
