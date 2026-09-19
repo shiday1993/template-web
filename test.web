@@ -14,7 +14,7 @@ if ((sess["user"] == null) | (sess["session"] == null)) {
 
 var t = "Example"
 var p = "test.web"
-var c = "admin"
+var c = "example"
 
 var v = {"user": sess["user"]}
 load(f)
